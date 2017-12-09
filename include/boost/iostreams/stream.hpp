@@ -82,6 +82,13 @@ protected:
     using pbase_type::member; // Avoid warning about 'this' in initializer list.
 public:
     stream_base() : pbase_type(), stream_type(&member) { }
+
+#if defined(_MSC_VER) && (_MSC_VER == 1700)
+// https://connect.microsoft.com/VisualStudio/feedback/details/733720/
+private:
+    void __CLR_OR_THIS_CALL _Add_vtordisp1() {}
+    void __CLR_OR_THIS_CALL _Add_vtordisp2() {}
+#endif
 };
 
 } } } // End namespaces detail, iostreams, boost.
