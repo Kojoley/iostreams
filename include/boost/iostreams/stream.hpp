@@ -71,6 +71,11 @@ template< typename Device,
           typename Base = // VC6 Workaround.
               BOOST_DEDUCED_TYPENAME
               detail::stream_traits<Device, Tr>::stream_type >
+#if defined(_MSC_VER) && (_MSC_VER == 1700)
+# pragma warning(push)
+// https://connect.microsoft.com/VisualStudio/feedback/details/733720/
+# pragma warning(disable: 4250)
+#endif
 class stream_base
     : protected base_from_member< stream_buffer<Device, Tr, Alloc> >,
       public Base
@@ -83,6 +88,9 @@ protected:
 public:
     stream_base() : pbase_type(), stream_type(&member) { }
 };
+#if defined(_MSC_VER) && (_MSC_VER == 1700)
+# pragma warning(pop)
+#endif
 
 } } } // End namespaces detail, iostreams, boost.
 
@@ -109,6 +117,11 @@ template< typename Device,
               std::allocator<
                   BOOST_DEDUCED_TYPENAME char_type_of<Device>::type
               > >
+#if defined(_MSC_VER) && (_MSC_VER == 1700)
+# pragma warning(push)
+// https://connect.microsoft.com/VisualStudio/feedback/details/733720/
+# pragma warning(disable: 4250)
+#endif
 struct stream : detail::stream_base<Device, Tr, Alloc> {
 public:
     typedef typename char_type_of<Device>::type  char_type;
@@ -143,6 +156,9 @@ private:
         this->member.open(dev BOOST_IOSTREAMS_PUSH_ARGS()); 
     }
 };
+#if defined(_MSC_VER) && (_MSC_VER == 1700)
+# pragma warning(pop)
+#endif
 
 } } // End namespaces iostreams, boost.
 
