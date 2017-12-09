@@ -25,6 +25,12 @@
 
 namespace boost { namespace iostreams { namespace detail {
 
+#if defined(_MSC_VER) && (_MSC_VER == 1700)
+# pragma warning(push)
+// https://connect.microsoft.com/VisualStudio/feedback/details/733720/
+# pragma warning(disable: 4250)
+#endif
+
 template<typename Device, typename Tr>
 struct stream_traits {
     typedef typename char_type_of<Device>::type                char_type;
@@ -143,6 +149,10 @@ private:
         this->member.open(dev BOOST_IOSTREAMS_PUSH_ARGS()); 
     }
 };
+
+#if defined(_MSC_VER) && (_MSC_VER == 1700)
+# pragma warning(pop)
+#endif
 
 } } // End namespaces iostreams, boost.
 
